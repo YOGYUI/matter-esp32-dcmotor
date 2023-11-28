@@ -9,6 +9,7 @@ class CDeviceFanControlDCMotor : public CDevice
 {
 public:
     CDeviceFanControlDCMotor();
+    ~CDeviceFanControlDCMotor();
 
     bool matter_add_endpoint() override;
     bool matter_init_endpoint() override;

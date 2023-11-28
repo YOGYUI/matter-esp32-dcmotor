@@ -1,10 +1,21 @@
 #include "device_fanctrl_dcmotor.h"
 #include "logger.h"
 #include "system.h"
+#include "definition.h"
 
 CDeviceFanControlDCMotor::CDeviceFanControlDCMotor()
 {
-    m_motor_pwm_driver = nullptr;
+    m_motor_pwm_driver = new CMotorPWMDriver();
+    if (m_motor_pwm_driver)
+        m_motor_pwm_driver->initialize(GPIO_PIN_MOTOR_PWM);
+}
+
+CDeviceFanControlDCMotor::~CDeviceFanControlDCMotor()
+{
+    if (m_motor_pwm_driver) {
+        m_motor_pwm_driver->release();
+        delete m_motor_pwm_driver;
+    }
 }
 
 bool CDeviceFanControlDCMotor::matter_add_endpoint()
@@ -111,13 +122,14 @@ void CDeviceFanControlDCMotor::matter_on_change_attribute_value(esp_matter::attr
                 GetLogger(eLogType::Info)->Log("cluster: FanControl(0x%04X), attribute: PercentSetting(0x%04X), value: %d", cluster_id, attribute_id, value->val.u8);
                 if (!m_updating_clus_fancontrol_attr_percentsetting) {
                     m_state_fan_percent = value->val.u8;
+                    m_motor_pwm_driver->set_duty_ratio((float)m_state_fan_percent);
                 } else {
                     m_updating_clus_fancontrol_attr_percentsetting = false;
                 }
             } else if (attribute_id == chip::app::Clusters::FanControl::Attributes::PercentCurrent::Id) {
                 GetLogger(eLogType::Info)->Log("cluster: FanControl(0x%04X), attribute: PercentCurrent(0x%04X), value: %d", cluster_id, attribute_id, value->val.u8);
                 if (!m_updating_clus_fancontrol_attr_percentcurrent) {
-
+                    // do nothing
                 } else {
                     m_updating_clus_fancontrol_attr_percentcurrent = false;
                 }
