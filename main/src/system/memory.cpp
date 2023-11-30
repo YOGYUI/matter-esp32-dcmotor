@@ -10,6 +10,7 @@ CMemory* CMemory::_instance;
 
 CMemory::CMemory()
 {
+    m_reboot_count = 0;
 }
 
 CMemory::~CMemory()
@@ -23,6 +24,11 @@ CMemory* CMemory::Instance()
     }
 
     return _instance;
+}
+
+void CMemory::Initialize()
+{
+    read_reboot_count(&m_reboot_count);
 }
 
 void CMemory::Release()
@@ -39,14 +45,18 @@ bool CMemory::read_nvs(const char *key, void *out, size_t data_size)
 
     esp_err_t err = nvs_open(MEMORY_NAMESPACE, NVS_READWRITE, &handle);
     if (err != ESP_OK) {
-        GetLogger(eLogType::Error)->Log("Failed to open nvs (ret=%d)", err);
+        if (m_reboot_count > 1) {
+            GetLogger(eLogType::Error)->Log("Failed to open nvs (ret=%d)", err);
+        }
         return false;
     }
 
     size_t temp = data_size;
     err = nvs_get_blob(handle, key, out, &temp);
     if (err != ESP_OK) {
-        GetLogger(eLogType::Error)->Log("Failed to get blob (%s, ret=%d)", key, err);
+        if (m_reboot_count > 1) {
+            GetLogger(eLogType::Error)->Log("Failed to get blob (%s, ret=%d)", key, err);
+        }
         nvs_close(handle);
         return false;
     }
@@ -83,6 +93,11 @@ bool CMemory::write_nvs(const char *key, const void *data, const size_t data_siz
     return true;
 }
 
+uint32_t CMemory::get_reboot_count()
+{
+    return m_reboot_count;
+}
+
 bool CMemory::load_motor_pwm_percent(uint8_t *percent)
 {
     uint8_t temp;
@@ -103,6 +118,30 @@ bool CMemory::save_motor_pwm_percent(const uint8_t percent)
     } else {
         return false;
     }
+
+    return true;
+}
+
+bool CMemory::read_reboot_count(uint32_t *count, bool verbose/*=true*/)
+{
+    uint32_t temp;
+    nvs_handle handle;
+
+    esp_err_t err = nvs_open_from_partition("nvs", "chip-counters", NVS_READONLY, &handle);
+    if (err != ESP_OK) {
+        GetLogger(eLogType::Error)->Log("Failed to open nvs (ret=%d)", err);
+        return false;
+    }
+
+    err = nvs_get_u32(handle, "reboot-count", &temp);
+    if (err != ESP_OK) {
+        GetLogger(eLogType::Error)->Log("Failed to get u32 (ret=%d)", err);
+        nvs_close(handle);
+        return false;
+    }
+
+    nvs_close(handle);
+    *count = temp;
 
     return true;
 }

@@ -27,6 +27,7 @@
         "ostream": "cpp",
         "complex": "cpp",
         "valarray": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "*.txx": "cpp"
     }
 }

@@ -1,3 +1,5 @@
+#! /usr/sh
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
     _script_path=$(dirname $(realpath $0))
 else 

@@ -2,6 +2,11 @@
 Matter 팬(Fan) 예제 프로젝트<br>
 `FanControl` Cluster에 대한 코드 구현 방법을 알아본다
 
+Hardware
+---
+일반 DC모터를 PWM 방식으로 제어<br>
+PWM 제어는 ESP32의 `GPIO16` 사용
+
 SDK
 ---
 - esp-idf: [6b1f40b9bfb91ec82fab4a60e5bfb4ca0c9b062f](https://github.com/espressif/esp-idf/tree/6b1f40b9bfb91ec82fab4a60e5bfb4ca0c9b062f)
@@ -37,6 +42,10 @@ $ source ./scripts/flash_factory_dac_provider.h
 $ idf.py build
 $ idf.py -p {시리얼포트명} flash monitor
 ```
+
+QR Code for commisioning
+---
+![qrcode.png](./resource/DACProvider/qrcode.png)
 
 References
 ---

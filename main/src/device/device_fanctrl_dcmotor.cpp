@@ -6,8 +6,11 @@
 CDeviceFanControlDCMotor::CDeviceFanControlDCMotor()
 {
     m_motor_pwm_driver = new CMotorPWMDriver();
-    if (m_motor_pwm_driver)
+    if (m_motor_pwm_driver) {
         m_motor_pwm_driver->initialize(GPIO_PIN_MOTOR_PWM);
+        m_motor_pwm_driver->set_enable();
+        m_motor_pwm_driver->set_duty_ratio(0.f);
+    }
 }
 
 CDeviceFanControlDCMotor::~CDeviceFanControlDCMotor()
@@ -115,6 +118,21 @@ void CDeviceFanControlDCMotor::matter_on_change_attribute_value(esp_matter::attr
                 GetLogger(eLogType::Info)->Log("cluster: FanControl(0x%04X), attribute: FanMode(0x%04X), value: %u", cluster_id, attribute_id, value->val.u8);
                 if (!m_updating_clus_fancontrol_attr_fanmode) {
                     m_state_fan_mode = value->val.u8;
+                    switch (m_state_fan_mode) {
+                    case FANMODE_LOW:
+                        m_motor_pwm_driver->set_duty_ratio((float)PERCENT_MODE_LOW);
+                        break;
+                    case FANMODE_MEDIUM:
+                        m_motor_pwm_driver->set_duty_ratio((float)PERCENT_MODE_MEDIUM);
+                        break;
+                    case FANMODE_HIGH:
+                        m_motor_pwm_driver->set_duty_ratio((float)PERCENT_MODE_HIGH);
+                        break;
+                    case FANMODE_OFF:
+                    default:
+                        m_motor_pwm_driver->set_disable();
+                        break;
+                    }
                 } else {
                     m_updating_clus_fancontrol_attr_fanmode = false;
                 }

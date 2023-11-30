@@ -1,7 +1,9 @@
+#! /usr/sh
+
 wd=${PWD}
 if [[ "$OSTYPE" == "darwin"* ]]; then
     script_path=$(dirname $(realpath $0))
-else 
+else
     script_path=$(dirname $(realpath $BASH_SOURCE))
 fi
 project_path=$(dirname ${script_path})

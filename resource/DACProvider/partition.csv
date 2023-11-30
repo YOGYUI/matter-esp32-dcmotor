@@ -1,0 +1,14 @@
+key,type,encoding,value
+chip-factory,namespace,,
+discriminator,data,u32,1234
+iteration-count,data,u32,10000
+salt,data,string,7PD4pREMC1wQeMKvh5j8Ym9Dsoxbi7DxpIWtRXCOhE8=
+verifier,data,string,XNOkhlXIwtSDJUS87CbahNCXUI2VuvpDRUqeaWzF+4kEryqX0o+NWUi7h6RVPQOyyQACosfAsb4T5sj8atBobmDmk3/krn+nrplFoPEXtB9xjklJnAAptUnPNQ10Eo5iDQ==
+vendor-id,data,u32,65522
+product-id,data,u32,32772
+serial-num,data,string,82a1141dc976f680112b348b9cd882a3
+dac-cert,file,binary,/home/dennislee/tools/esp-matter/tools/mfg_tool/out/fff2_8004/50efad28-a77d-48b2-a664-5a659f4f5c1c/internal/DAC_cert.der
+dac-key,file,binary,/home/dennislee/tools/esp-matter/tools/mfg_tool/out/fff2_8004/50efad28-a77d-48b2-a664-5a659f4f5c1c/internal/DAC_private_key.bin
+dac-pub-key,file,binary,/home/dennislee/tools/esp-matter/tools/mfg_tool/out/fff2_8004/50efad28-a77d-48b2-a664-5a659f4f5c1c/internal/DAC_public_key.bin
+pai-cert,file,binary,/home/dennislee/tools/esp-matter/tools/mfg_tool/out/fff2_8004/staging/pai_cert.der
+cert-dclrn,file,binary,../../../../dev/matter-esp32-dcmotor/resource/Attestation/CD-FFF2-8004.der

@@ -76,9 +76,6 @@ bool CSystem::initialize()
         return false;
     }
     GetLogger(eLogType::Info)->Log("Root node (endpoint 0) added");
-
-    // prevent endpoint id increment when board reset
-    matter_set_min_endpoint_id(1);
     
     // start matter
     ret = esp_matter::start(matter_event_callback);
@@ -86,14 +83,19 @@ bool CSystem::initialize()
         GetLogger(eLogType::Error)->Log("Failed to start matter (ret: %d)", ret);
         return false;
     }
+    // prevent endpoint id increment when board reset
+    matter_set_min_endpoint_id(1);
     GetLogger(eLogType::Info)->Log("Matter started");
 
     CDevice *dev = new CDeviceFanControlDCMotor();
     if (dev && dev->matter_add_endpoint()) {
         m_device_list.push_back(dev);
+        dev->matter_update_all_attribute_values();
     } else {
         return false;
     }
+
+    GetMemory()->Initialize();
 
     GetLogger(eLogType::Info)->Log("System Initialized");
     print_system_info();
