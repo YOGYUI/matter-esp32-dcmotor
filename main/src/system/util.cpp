@@ -501,6 +501,7 @@ std::string get_matter_attribute_value_string(esp_matter_attr_val_t value)
         snprintf(temp, sizeof(temp), "invalid");
         break;
     case ESP_MATTER_VAL_TYPE_BOOLEAN:
+    case ESP_MATTER_VAL_TYPE_NULLABLE_BOOLEAN:
         snprintf(temp, sizeof(temp), "%d", value.val.b);
         break;
     case ESP_MATTER_VAL_TYPE_INTEGER:
