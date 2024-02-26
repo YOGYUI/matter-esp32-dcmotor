@@ -35,7 +35,7 @@ $ idf.py set-target esp32
 DAC Provider 플래시
 connectedhomeip의 예제 Attestation 중 Vendor ID 0x**FFF2**, Product ID 0x**8001**에 대한 DAC Provider Factory 바이너리 파일을 ESP32에 플래시해준다
 ```shell
-$ source ./scripts/flash_factory_dac_provider.h
+$ source ./scripts/flash_factory_dac_provider.sh
 ```
 소스코드 빌드 및 플래시
 ```shell
