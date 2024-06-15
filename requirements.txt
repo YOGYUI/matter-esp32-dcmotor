@@ -1,3 +1,4 @@
+cbor2==5.6.4
 esp-secure-cert-tool==2.0.0
 esptool==4.7.0
 Jinja2==3.1.3
