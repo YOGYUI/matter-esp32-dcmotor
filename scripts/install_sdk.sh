@@ -34,10 +34,12 @@ git checkout v5.2.1
 git submodule update --init --recursive
 bash ./install.sh
 
-# clone esp-matter repository and install connectedhomeip submodules      
+# clone esp-matter repository and install connectedhomeip submodules
 cd ${sdk_path}
 git clone --depth 1 https://github.com/espressif/esp-matter.git esp-matter
 cd ${esp_matter_path}
+git fetch --all --tags
+git checkout release/v1.3
 git submodule update --init --depth 1
 cd ./connectedhomeip/connectedhomeip
 if [[ "$OSTYPE" == "darwin"* ]]; then
