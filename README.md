@@ -42,6 +42,7 @@ $ source ./scripts/flash_factory_dac_provider.sh
 $ idf.py build
 $ idf.py -p {시리얼포트명} flash monitor
 ```
+You may need to reduce the baudrate if you get errors when flashing (eg down to 115200).
 
 QR Code for commisioning
 ---
