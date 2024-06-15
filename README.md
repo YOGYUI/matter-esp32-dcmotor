@@ -15,6 +15,12 @@ SDK
   - Matter 1.1 released (2023.05.18)
   - Matter 1.2 released (2023.10.23)
 
+Python Libraries
+---
+```shell
+$ pip3 install -r requirements.txt
+```
+
 Helper Script
 ---
 SDK 클론 및 설치
